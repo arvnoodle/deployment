@@ -45,7 +45,7 @@ def render_entities(rawtext):
     result = HTML_WRAPPER.format(html)
     return result
 
-def get_most_common_tokens(my_text,num=4):
+def get_most_common_tokens(my_text,num=5):
     word_tokens = Counter(my_text.split())
     most_common_tokens = word_tokens.most_common(num)
     return most_common_tokens
@@ -91,7 +91,7 @@ def main():
                 with st.expander("Top Keywords"):
                     st.info("Top Keywords/Tokens")
                     processed_text = nfx.remove_stopwords(raw_text)
-                    keywords = get_most_common_tokens(processed_text)
+                    keywords = get_most_common_tokens(processed_text,num=5)
                     st.write(keywords)
 
                 with st.expander("Sentiment"):
@@ -103,8 +103,10 @@ def main():
                     fig = plt.figure()
                     # sns.countplot(token_result_df['Token'])
                     # plt.xticks(rotation=90)
-                    top_keywords = get_most_common_tokens(processed_text)
-                    plt.bar(dict(keywords).keys(), dict(top_keywords).values())
+                    top_keywords = get_most_common_tokens(processed_text,num_of_most_common)
+                    st.write(num_of_most_common)
+                    st.write(type(num_of_most_common))
+                    plt.bar(dict(top_keywords).keys(), dict(top_keywords).values())
                     st.pyplot(fig)
 
                 with st.expander("Plot Part of Speech"):
